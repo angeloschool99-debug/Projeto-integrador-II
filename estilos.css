@@ -1,0 +1,928 @@
+
+/* ---------- 1. VARIÁVEIS E BASE ---------- */
+
+:root {
+  --abismo: #070a26;
+  --abismo-2: #0f1240;
+  --roxo: #1e1a5c;
+  --roxo-claro: #4a3f9a;
+  --rosa: #f3cfd6;
+  --ceu: #9bb7ff;
+  --altura-menu: 64px;
+
+  --fonte-titulo: "Fraunces", Georgia, "Times New Roman", serif;
+  --fonte-texto: "Plus Jakarta Sans", system-ui, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--abismo);
+  color: #f1eefc;
+  font-family: var(--fonte-texto);
+  line-height: 1.65;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Impede a rolagem enquanto o portal está aberto */
+body.travado {
+  overflow: hidden;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+h1, h2, h3, .logo {
+  font-family: var(--fonte-titulo);
+}
+
+h2 {
+  margin-bottom: 22px;
+  font-size: clamp(1.9rem, 6vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ceu);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+
+/* ---------- 2. PEÇAS COMUNS ---------- */
+
+/* Cartão de vidro semitransparente */
+.vidro {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 22px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform .25s ease, box-shadow .25s ease;
+  will-change: transform;
+}
+
+.vidro:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .25);
+}
+
+.vidro-claro {
+  background: rgba(255, 255, 255, .45);
+  border-color: rgba(255, 255, 255, .8);
+}
+
+/* Quadro tracejado onde vai uma imagem (troque por <img>) */
+.moldura {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+  border: 2px dashed rgba(255, 255, 255, .45);
+  border-radius: 26px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+.moldura b {
+  font-size: 2rem;
+  letter-spacing: 0;
+  opacity: .8;
+}
+
+.moldura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.claro .moldura,
+.bege .moldura {
+  border-color: rgba(30, 26, 92, .45);
+}
+
+/* Textos pequenos */
+.sobretitulo {
+  display: block;
+  margin-bottom: 10px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+.etiqueta {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 14px;
+  background: rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.nota {
+  max-width: 540px;
+  margin: 20px auto 0;
+  font-size: .8rem;
+  opacity: .75;
+}
+
+/* Botões */
+.botao {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #fff;
+  color: var(--roxo);
+  border: 2px solid #fff;
+  border-radius: 999px;
+  font: 700 1rem var(--fonte-texto);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s, background .25s;
+}
+
+.botao:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(243, 207, 214, .35);
+}
+
+.botao.contorno {
+  background: transparent;
+  color: inherit;
+}
+
+.botao.contorno:hover {
+  background: rgba(255, 255, 255, .15);
+}
+
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Botão redondo que desce para o próximo bloco */
+.descer {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 30px auto 0;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  text-decoration: none;
+  animation: pular 2s ease-in-out infinite;
+}
+
+.descer i {
+  width: 11px;
+  height: 11px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-3px) rotate(45deg);
+}
+
+.descer-escuro {
+  color: var(--roxo);
+}
+
+
+/* ---------- 3. PORTAL (escolha do perfil) ---------- */
+
+.portal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: auto;
+  background:
+    radial-gradient(ellipse at 15% 100%, rgba(255, 170, 190, .55), transparent 55%),
+    radial-gradient(ellipse at 90% 0%, rgba(155, 183, 255, .35), transparent 50%),
+    linear-gradient(170deg, #0b0a2e, #2a2285 55%, #6e5bb8);
+  transition: opacity .7s ease, transform .7s ease, visibility .7s;
+}
+
+.portal.saindo {
+  opacity: 0;
+  transform: scale(1.06);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.portal-titulo {
+  font-size: clamp(2.6rem, 12vw, 5rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  line-height: 1;
+}
+
+.portal-frase {
+  margin: 10px 0 26px;
+  opacity: .85;
+}
+
+.pergunta {
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.perfis {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.perfil {
+  display: block;
+  padding: 26px 20px;
+  color: #fff;
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+
+.perfil:hover {
+  background: rgba(255, 255, 255, .16);
+  transform: translateY(-6px) scale(1.02);
+}
+
+.perfil-icone {
+  display: block;
+  font-size: 2.4rem;
+}
+
+.perfil h2 {
+  margin: 6px 0 2px;
+  font-size: 1.4rem;
+}
+
+.perfil p {
+  font-size: .9rem;
+  opacity: .8;
+}
+
+
+/* ---------- 4. MENU E BARRA DE PROGRESSO ---------- */
+
+.barra-progresso {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ceu), var(--rosa));
+}
+
+.cabecalho {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(var(--altura-menu) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 22px 0;
+  background: rgba(7, 10, 38, .6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.logo {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-decoration: none;
+}
+
+.botao-menu {
+  padding: 10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.botao-menu span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin: 5px 0;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform .25s, opacity .25s;
+}
+
+.botao-menu[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.botao-menu[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.botao-menu[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.menu {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  display: none;
+  flex-direction: column;
+  padding: 8px 22px 20px;
+  background: rgba(7, 10, 38, .96);
+}
+
+.menu.aberto {
+  display: flex;
+  animation: descerMenu .3s ease;
+}
+
+.menu a,
+.menu button {
+  padding: 14px 0;
+  color: #fff;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu a.ativo {
+  color: var(--rosa);
+  font-weight: 700;
+}
+
+
+/* ---------- 5. BLOCOS ---------- */
+
+.bloco {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--altura-menu) + 36px) 22px 40px;
+  overflow: hidden;
+}
+
+.escuro   { background: linear-gradient(180deg, var(--abismo), var(--abismo-2)); }
+.escuro-2 { background: linear-gradient(180deg, var(--abismo-2), #25207a 70%, #4a3f9a); }
+.claro    { background: linear-gradient(165deg, #f2e9fb, #d3c8f4 50%, #a99de0); color: var(--roxo); }
+.bege     { background: linear-gradient(180deg, #fdf3ec, #f7dde0 60%, #efcfdc); color: var(--roxo); }
+
+.duas-colunas {
+  display: grid;
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  align-items: center;
+  justify-items: center;
+}
+
+.coluna {
+  max-width: 480px;
+}
+
+.coluna p {
+  margin-bottom: 14px;
+}
+
+.lista {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-width: 760px;
+}
+
+
+/* ---------- 6. INÍCIO ---------- */
+
+.inicio {
+  background: linear-gradient(180deg, #0e0b38 0%, #27207f 42%, #8d78c4 72%, #f5e3da 100%);
+}
+
+.inicio:focus {
+  outline: none;
+}
+
+.inicio > *:not(.luz) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Luzes coloridas que flutuam e seguem o mouse */
+.luz {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .55;
+  pointer-events: none;
+  transition: transform .6s ease-out;
+}
+
+.luz-1 { width: 46vmax; height: 46vmax; left: -14vmax; bottom: -16vmax; background: #ffaabe; animation: flutuar 9s ease-in-out infinite; }
+.luz-2 { width: 38vmax; height: 38vmax; right: -12vmax; top: -8vmax; background: #6f8dff; animation: flutuar 11s 1s ease-in-out infinite reverse; }
+.luz-3 { width: 26vmax; height: 26vmax; left: 35%; bottom: 8%; background: #b39bff; opacity: .35; animation: flutuar 13s ease-in-out infinite; }
+
+.nome-empresa {
+  font-size: 1rem;
+  letter-spacing: .2em;
+  opacity: 0;
+  animation: subir .9s .1s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+.titulo {
+  font-size: clamp(3.2rem, 16vw, 8rem);
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.letra {
+  display: inline-block;
+  opacity: 0;
+  animation: subir .9s cubic-bezier(.2, .8, .2, 1) forwards;
+  animation-delay: calc(var(--i) * .09s + .2s);
+}
+
+.frase {
+  margin: 14px 0 6px;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  font-style: italic;
+  opacity: 0;
+  animation: subir .9s .9s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+.frase-giratoria {
+  min-height: 3.2em;
+  max-width: 420px;
+  margin: 0 auto 22px;
+  opacity: .9;
+  transition: opacity .5s;
+}
+
+.frase-giratoria.some {
+  opacity: 0;
+}
+
+.moldura-logo {
+  width: 150px;
+  aspect-ratio: 1;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  opacity: 0;
+  animation:
+    subir .9s 1.1s cubic-bezier(.2, .8, .2, 1) forwards,
+    flutuar 4s 2s ease-in-out infinite;
+}
+
+.inicio .botoes {
+  opacity: 0;
+  animation: subir .9s 1.3s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+.inicio .botao {
+  background: var(--roxo);
+  border-color: var(--roxo);
+  color: #fff;
+}
+
+.inicio .botao.contorno {
+  background: rgba(255, 255, 255, .3);
+  color: var(--roxo);
+}
+
+
+/* ---------- 7. NOTÍCIAS E "POR QUE PARTICIPAR" ---------- */
+
+.noticia {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  text-align: left;
+}
+
+.noticia .moldura {
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+}
+
+.pilha {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.item {
+  padding: 20px;
+}
+
+.item h3 {
+  margin-bottom: 4px;
+  font-size: 1.2rem;
+}
+
+
+/* ---------- 8. FORMULÁRIO ---------- */
+
+.formulario-bloco {
+  background: radial-gradient(ellipse at 50% 0%, var(--roxo-claro), var(--abismo) 75%);
+}
+
+.caixa-formulario {
+  width: 100%;
+  max-width: 600px;
+  padding: 30px 22px;
+  background: rgba(30, 26, 92, .5);
+}
+
+.caixa-formulario h2 {
+  margin-bottom: 6px;
+}
+
+.incentivo {
+  margin-bottom: 18px;
+  opacity: .75;
+}
+
+/* Bolinhas de progresso das etapas */
+.indicador {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.indicador i {
+  width: 34px;
+  height: 6px;
+  background: rgba(255, 255, 255, .2);
+  border-radius: 9px;
+  transition: background .3s, width .3s;
+}
+
+.indicador i.feita { background: var(--rosa); }
+.indicador i.atual { background: var(--rosa); width: 52px; }
+
+.etapa {
+  animation: entrar .5s ease;
+}
+
+/* Etapa 1 · categorias */
+.categorias {
+  display: grid;
+  gap: 12px;
+}
+
+.categoria {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .1);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 18px;
+  font: 700 1rem var(--fonte-texto);
+  cursor: pointer;
+  transition: background .25s, transform .25s;
+}
+
+.categoria span {
+  font-size: 1.6rem;
+}
+
+.categoria:hover {
+  background: rgba(255, 255, 255, .22);
+  transform: scale(1.03);
+}
+
+/* Etapa 2 · campos de texto */
+label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 700;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 13px 15px;
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 14px;
+  font: inherit;
+  text-align: center;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, .55);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, .16);
+  border-color: #fff;
+}
+
+input:disabled {
+  opacity: .4;
+}
+
+.contador-caracteres {
+  margin-top: 4px;
+  font-size: .75rem;
+  opacity: .6;
+}
+
+.erro {
+  min-height: 1.5em;
+  margin-top: 8px;
+  color: #ffb4ab;
+  font-weight: 700;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Etapa 3 · anônimo */
+.anonimo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, .12);
+  border: 2px solid rgba(255, 255, 255, .55);
+  border-radius: 18px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.anonimo input {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  accent-color: var(--rosa);
+}
+
+.anonimo small {
+  display: block;
+  font-weight: 400;
+  opacity: .85;
+}
+
+/* Etapa 4 · confirmação */
+.check {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 10px;
+  background: var(--rosa);
+  color: var(--roxo);
+  border-radius: 50%;
+  font-size: 2.4rem;
+  animation: surgir .6s cubic-bezier(.3, 1.6, .5, 1);
+}
+
+.sucesso-titulo {
+  margin: 6px 0;
+  font-size: 1.7rem;
+}
+
+/* Confete que cai ao enviar */
+.confete {
+  position: fixed;
+  top: -20px;
+  z-index: 70;
+  width: 10px;
+  height: 14px;
+  pointer-events: none;
+  animation: cair 2.4s ease-in forwards;
+}
+
+
+/* ---------- 9. DÚVIDAS E FINAL ---------- */
+
+.faq {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.faq-pergunta {
+  width: 100%;
+  padding: 16px 4px;
+  background: none;
+  color: var(--roxo);
+  border: 0;
+  border-bottom: 1px solid rgba(30, 26, 92, .25);
+  font: 700 1.05rem var(--fonte-texto);
+  cursor: pointer;
+}
+
+.faq-pergunta::after                       { content: " +"; }
+.faq-pergunta[aria-expanded="true"]::after { content: " –"; }
+
+/* A resposta desce suavemente (altura de 0 até o tamanho do texto) */
+.faq-resposta {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s ease;
+}
+
+.faq-resposta > p {
+  overflow: hidden;
+  padding: 0 18px;
+  background: rgba(243, 207, 214, .8);
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity .5s, padding .5s;
+}
+
+.faq-pergunta[aria-expanded="true"] + .faq-resposta {
+  grid-template-rows: 1fr;
+}
+
+.faq-pergunta[aria-expanded="true"] + .faq-resposta > p {
+  margin-top: 10px;
+  padding: 16px 18px;
+  opacity: 1;
+}
+
+/* Números do final */
+.numeros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 26px;
+}
+
+.numeros div {
+  min-width: 110px;
+}
+
+.numeros b {
+  display: block;
+  font: 700 2.4rem var(--fonte-titulo);
+}
+
+.numeros span {
+  font-size: .8rem;
+  opacity: .75;
+}
+
+.rodape {
+  max-width: 480px;
+  margin-top: 46px;
+  font-size: .9rem;
+  opacity: .85;
+}
+
+.rodape p {
+  margin: 6px 0;
+}
+
+
+/* ---------- 10. ANIMAÇÕES ---------- */
+
+@keyframes subir      { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
+@keyframes entrar     { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes surgir     { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes pular      { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+@keyframes flutuar    { 0%, 100% { translate: 0 0; } 50% { translate: 0 -22px; } }
+@keyframes descerMenu { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@keyframes cair       { to { transform: translateY(105vh) rotate(540deg); opacity: .2; } }
+
+/* Elementos .revelar sobem ao aparecer (o script.js adiciona .visivel) */
+.js .revelar {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity .8s ease, transform .8s ease;
+  transition-delay: var(--atraso, 0s);
+}
+
+.js .revelar.visivel {
+  opacity: 1;
+  transform: none;
+}
+
+/* Depois de aparecer (.pronto, via script.js) o cartão obedece ao mouse na hora,
+   sem herdar a duração e o atraso da animação de entrada */
+.js .revelar.pronto {
+  transition: transform .12s ease-out, opacity .3s, box-shadow .25s;
+  transition-delay: 0s;
+}
+
+.js .revelar.pronto:not(:hover) {
+  transition-duration: .45s, .3s, .25s;
+}
+
+/* Para quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .letra, .frase, .nome-empresa, .moldura-logo, .inicio .botoes, .js .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ---------- 11. COMPUTADOR ---------- */
+
+@media (min-width: 761px) {
+
+  .cabecalho {
+    padding-inline: 48px;
+  }
+
+  .botao-menu {
+    display: none;
+  }
+
+  .menu {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 26px;
+    padding: 0;
+    background: none;
+  }
+
+  .menu a,
+  .menu button {
+    padding: 4px 0;
+    border: 0;
+  }
+
+  .perfis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .duas-colunas {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+
+  .noticia {
+    grid-template-columns: 200px 1fr;
+  }
+}

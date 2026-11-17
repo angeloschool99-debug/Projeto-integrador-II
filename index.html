@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0a2e">
+  <title>INTEGRA | Sua voz, nossa evolução.</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
+
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="script.js" defer></script>
+
+</head>
+
+<body class="travado">
+  <!-- escolha do perfil (colaborador ou administrador) -->
+  <section class="portal" id="portal" role="dialog" aria-modal="true" aria-label="Escolha seu acesso">
+
+    <h1 class="portal-titulo" id="portal-titulo" aria-label="INTEGRA">INTEGRA</h1>
+    <p class="portal-frase">Sua voz, nossa evolução.</p>
+    <p class="pergunta">Como você deseja entrar?</p>
+
+    <div class="perfis">
+
+      <!-- Colaborador: fecha o portal e mostra a parte pública -->
+      <button class="vidro perfil" type="button" id="entrar-colaborador">
+        <span class="perfil-icone" aria-hidden="true">🙋</span>
+        <h2>Sou colaborador</h2>
+        <p>Enviar sugestões e relatos, sem precisar de login.</p>
+      </button>
+
+      <!-- Administrador: leva para a página do painel -->
+      <a class="vidro perfil" href="/Painel administrativo/administrador.html">
+        <span class="perfil-icone" aria-hidden="true">🧭</span>
+        <h2>Sou administrador</h2>
+        <p>Gerenciar e responder as mensagens recebidas.</p>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- Barra de progresso da rolagem -->
+  <div class="barra-progresso" id="barra-progresso"></div>
+
+
+  <!-- ================= MENU ================= -->
+  <header class="cabecalho">
+
+    <a class="logo" href="#inicio">INTEGRA</a>
+
+    <button class="botao-menu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="menu" id="menu" aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#noticias">Notícias</a>
+      <a href="#seguranca">Por que participar</a>
+      <a href="#enviar">Enviar</a>
+      <a href="#duvidas">Dúvidas</a>
+      <button type="button" id="trocar-perfil">Trocar perfil</button>
+    </nav>
+
+  </header>
+
+
+  <main>
+
+    <!-- ==========================================================
+         01 · INÍCIO
+         ========================================================== -->
+    <section class="bloco inicio" id="inicio" tabindex="-1">
+
+      <!-- Luzes coloridas do fundo -->
+      <i class="luz luz-1"></i>
+      <i class="luz luz-2"></i>
+      <i class="luz luz-3"></i>
+
+      <h1 class="titulo" aria-label="INTEGRA">INTEGRA</h1>
+      <p class="frase">Sua voz, nossa evolução.</p>
+      <p class="frase-giratoria" id="frase-giratoria"></p>
+
+      <div class="moldura moldura-logo" role="img" aria-label="Espaço para o logo">
+        <span>LOGO</span>
+      </div>
+
+      <div class="botoes">
+        <a class="botao" href="#sobre">Começar</a>
+        <a class="botao contorno" href="#enviar">Enviar mensagem</a>
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================================
+         02 · O QUE É O INTEGRA
+         ========================================================== -->
+    <section class="bloco escuro" id="sobre">
+
+      <div class="duas-colunas">
+
+        <div class="coluna revelar">
+          <span class="sobretitulo">Conheça</span>
+          <h2>O que é o Integra?</h2>
+          <div class="moldura" role="img" aria-label="Espaço para imagem">
+            <b aria-hidden="true">🖼️</b><span>IMAGEM</span>
+          </div>
+        </div>
+
+        <div class="coluna revelar" style="--atraso: .15s">
+          <p>O Integra é o canal oficial da nossa empresa para aproximar você da gestão. Aqui você compartilha ideias de melhoria, relata ocorrências no ambiente de trabalho e envia sugestões.</p>
+          <p>Cada mensagem é encaminhada à administração para análise, transformando a sua participação em melhorias para o dia a dia de todos.</p>
+        </div>
+
+      </div>
+
+      <a class="descer" href="#noticias" aria-label="Descer para as notícias"><i></i></a>
+
+    </section>
+
+
+    <!-- ==========================================================
+         03 · NOTÍCIAS
+         ========================================================== -->
+    <section class="bloco escuro-2" id="noticias">
+
+      <span class="sobretitulo revelar">Mural</span>
+      <h2 class="revelar">Fique por dentro</h2>
+
+      <div class="lista">
+
+        <article class="vidro noticia inclinar revelar">
+          <div class="moldura" role="img" aria-label="Foto da notícia"><b aria-hidden="true">📷</b></div>
+          <div>
+            <span class="etiqueta">Aviso importante</span>
+            <p>Atualização nos horários de funcionamento do refeitório a partir da próxima semana.</p>
+          </div>
+        </article>
+
+        <article class="vidro noticia inclinar revelar" style="--atraso: .15s">
+          <div class="moldura" role="img" aria-label="Foto da notícia"><b aria-hidden="true">📷</b></div>
+          <div>
+            <span class="etiqueta">Novidade</span>
+            <p>Confira as melhorias implementadas no setor de logística graças às sugestões do mês passado.</p>
+          </div>
+        </article>
+
+        <article class="vidro noticia inclinar revelar" style="--atraso: .3s">
+          <div class="moldura" role="img" aria-label="Foto da notícia"><b aria-hidden="true">📷</b></div>
+          <div>
+            <span class="etiqueta">Comunicado</span>
+            <p>Exemplo de comunicado. Aqui aparecerão as informações oficiais da empresa.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="nota">Os comunicados desta versão são exemplos demonstrativos.</p>
+      <a class="descer" href="#seguranca" aria-label="Descer para Por que participar"><i></i></a>
+
+    </section>
+
+
+    <!-- ==========================================================
+         04 · POR QUE PARTICIPAR
+         ========================================================== -->
+    <section class="bloco claro" id="seguranca">
+
+      <span class="sobretitulo revelar">Participe</span>
+      <h2 class="revelar">Por que participar?</h2>
+
+      <div class="duas-colunas">
+
+        <div class="moldura revelar" role="img" aria-label="Espaço para imagem">
+          <b aria-hidden="true">🖼️</b><span>IMAGEM</span>
+        </div>
+
+        <div class="pilha">
+
+          <article class="vidro vidro-claro item inclinar revelar">
+            <h3>🔒 Seguro e confidencial</h3>
+            <p>Você escolhe se deseja se identificar ou enviar sem nome.*</p>
+          </article>
+
+          <article class="vidro vidro-claro item inclinar revelar" style="--atraso: .15s">
+            <h3>💡 Sua voz importa</h3>
+            <p>Suas ideias ajudam a transformar a rotina e os processos da empresa.</p>
+          </article>
+
+          <article class="vidro vidro-claro item inclinar revelar" style="--atraso: .3s">
+            <h3>📬 Seu relato chega à administração</h3>
+            <p>Cada mensagem é encaminhada à equipe responsável para análise e providências.</p>
+          </article>
+
+        </div>
+
+      </div>
+
+      <p class="nota">*Enviar sem nome não garante anonimato absoluto.</p>
+      <a class="descer" href="#enviar" aria-label="Descer para o formulário"><i></i></a>
+
+    </section>
+
+
+    <!-- ==========================================================
+         05 · FORMULÁRIO (3 etapas + confirmação)
+         ========================================================== -->
+    <section class="bloco formulario-bloco" id="enviar">
+
+      <div class="vidro caixa-formulario revelar">
+
+        <h2>Envie sua mensagem</h2>
+        <p class="incentivo">Leva menos de um minuto. Cada palavra conta. 💙</p>
+
+        <div class="indicador" id="indicador" aria-hidden="true"><i></i><i></i><i></i></div>
+
+        <form id="formulario" novalidate>
+
+          <!-- Etapa 1 · tipo de registro -->
+          <div class="etapa" data-etapa="1">
+            <p class="pergunta">Selecione o tipo de registro:</p>
+
+            <div class="categorias">
+              <button class="categoria" type="button" data-tipo="Sugestão de Melhoria"><span aria-hidden="true">💡</span>Sugestão de Melhoria</button>
+              <button class="categoria" type="button" data-tipo="Problema ou Ocorrência"><span aria-hidden="true">⚠️</span>Problema ou Ocorrência</button>
+              <button class="categoria" type="button" data-tipo="Reclamação ou Outros"><span aria-hidden="true">💬</span>Reclamação ou Outros</button>
+            </div>
+          </div>
+
+          <!-- Etapa 2 · título e descrição -->
+          <div class="etapa" data-etapa="2" hidden>
+            <span class="etiqueta" id="tipo-escolhido"></span>
+
+            <label for="titulo-mensagem">Título da mensagem</label>
+            <input type="text" id="titulo-mensagem" maxlength="100" autocomplete="off" placeholder="Ex: Melhoria na iluminação da área de descanso">
+
+            <label for="descricao-mensagem">Descrição detalhada</label>
+            <textarea id="descricao-mensagem" maxlength="1000" placeholder="Descreva os detalhes do que aconteceu ou da sua ideia..."></textarea>
+            <p class="contador-caracteres" id="contador-caracteres">0 / 1000</p>
+
+            <p class="erro" id="mensagem-erro" role="alert"></p>
+
+            <div class="acoes">
+              <button class="botao contorno" type="button" data-acao="voltar">Voltar</button>
+              <button class="botao" type="button" data-acao="avancar">Continuar</button>
+            </div>
+          </div>
+
+          <!-- Etapa 3 · anônimo ou identificação -->
+          <div class="etapa" data-etapa="3" hidden>
+            <label class="anonimo">
+              <input type="checkbox" id="caixa-anonimo" checked>
+              <span>
+                <b>Manter este envio anônimo</b>
+                <small>Seu nome e setor não serão enviados. Não inclua dados pessoais no texto.</small>
+              </span>
+            </label>
+
+            <div id="identificacao">
+              <label for="nome">Nome completo (opcional)</label>
+              <input type="text" id="nome" maxlength="100" autocomplete="name" placeholder="Digite seu nome...">
+
+              <label for="setor">Setor (opcional)</label>
+              <input type="text" id="setor" maxlength="50" autocomplete="off" placeholder="Ex: TI, Administrativo...">
+            </div>
+
+            <div class="acoes">
+              <button class="botao contorno" type="button" data-acao="voltar">Voltar</button>
+              <button class="botao" type="submit">Enviar mensagem</button>
+            </div>
+          </div>
+
+          <!-- Etapa 4 · confirmação -->
+          <div class="etapa" data-etapa="4" hidden role="status">
+            <div class="check" aria-hidden="true">✓</div>
+            <h3 class="sucesso-titulo" tabindex="-1">Mensagem enviada!</h3>
+            <p>Obrigado pela sua contribuição. Ela será analisada pela administração.</p>
+            <button class="botao" type="button" data-acao="novo">Enviar outra mensagem</button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <a class="descer" href="#duvidas" aria-label="Descer para as dúvidas"><i></i></a>
+
+    </section>
+
+
+    <!-- ==========================================================
+         06 · DÚVIDAS FREQUENTES
+         ========================================================== -->
+    <section class="bloco bege" id="duvidas">
+
+      <span class="sobretitulo revelar">Perguntas</span>
+      <h2 class="revelar">Dúvidas frequentes</h2>
+
+      <div class="faq">
+
+        <div class="revelar">
+          <button class="faq-pergunta" type="button" aria-expanded="false">O envio é anônimo?</button>
+          <div class="faq-resposta">
+            <p>Se você marcar o envio anônimo, o formulário não envia seu nome nem seu setor. Isso não garante anonimato absoluto, pois o servidor pode registrar dados técnicos. Evite incluir dados pessoais no texto.</p>
+          </div>
+        </div>
+
+        <div class="revelar" style="--atraso: .12s">
+          <button class="faq-pergunta" type="button" aria-expanded="false">Como sei se minha sugestão foi lida?</button>
+          <div class="faq-resposta">
+            <p>Toda mensagem é encaminhada à administração e analisada pela equipe responsável. Como o Integra não exige login, não há resposta individual; melhorias e avisos importantes podem ser divulgados no mural de notícias.</p>
+          </div>
+        </div>
+
+        <div class="revelar" style="--atraso: .24s">
+          <button class="faq-pergunta" type="button" aria-expanded="false">Quem tem acesso aos dados?</button>
+          <div class="faq-resposta">
+            <p>Apenas os administradores autorizados da empresa, conforme as regras de acesso do sistema.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <a class="descer descer-escuro" href="#final" aria-label="Descer"><i></i></a>
+
+    </section>
+
+
+    <!-- ==========================================================
+         07 · FRASE FINAL
+         ========================================================== -->
+    <section class="bloco escuro" id="final">
+
+      <div class="duas-colunas">
+
+        <div class="coluna revelar">
+          <h2>Boas ideias começam com a participação de todos.</h2>
+          <p>Participe e ajude a construir um ambiente de trabalho melhor.</p>
+          <a class="botao" href="#enviar">Enviar mensagem</a>
+
+          <!-- Números decorativos: troque ou apague se não forem reais -->
+          <div class="numeros">
+            <div><b data-numero="3">0</b><span>passos simples</span></div>
+            <div><b data-numero="1">0</b><span>minuto para enviar</span></div>
+          </div>
+        </div>
+
+        <div class="moldura revelar" style="--atraso: .15s" role="img" aria-label="Espaço para imagem">
+          <b aria-hidden="true">🖼️</b><span>IMAGEM</span>
+        </div>
+
+      </div>
+
+      <footer class="rodape">
+        <b>SISTEMA INTEGRA</b>
+        <p>Desenvolvido para fortalecer a comunicação e a melhoria contínua no ambiente de trabalho.</p>
+        <small>© 2026 Sistema Integra. Todos os direitos reservados.</small>
+      </footer>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
