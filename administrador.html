@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0a2e">
+  <title>INTEGRA | Painel administrativo</title>
+
+  <!-- Fontes: Fraunces (títulos) e Plus Jakarta Sans (textos) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
+
+  <link rel="stylesheet" href="administrador.css">
+  <script src="administrador.js" defer></script>
+
+</head>
+
+<body>
+
+
+  <!-- ==========================================================
+       LOGIN
+       ========================================================== -->
+  <section class="login" id="login">
+
+    <div class="vidro login-caixa entrada">
+
+      <h1>INTEGRA</h1>
+      <p>Área administrativa</p>
+
+      <form id="formulario-login" novalidate>
+
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" autocomplete="username">
+
+        <label for="login-senha">Senha</label>
+        <input type="password" id="login-senha" autocomplete="current-password">
+
+        <p class="erro-login" id="erro-login" role="alert"></p>
+
+        <button class="botao" type="submit">Entrar</button>
+
+      </form>
+
+      <a class="voltar" href="index.html">← Voltar ao site</a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================
+       PAINEL
+       ========================================================== -->
+  <div class="aplicacao" id="aplicacao" hidden>
+
+    <!-- Menu lateral -->
+    <aside class="lateral">
+      <div class="logo">INTEGRA</div>
+
+      <button class="menu-item ativo" type="button" data-visao="painel">📊 Painel</button>
+      <button class="menu-item" type="button" data-visao="mensagens">📋 Mensagens</button>
+      <button class="menu-item" type="button" data-visao="configuracoes">⚙️ Configurações</button>
+      <button class="menu-item sair" type="button" id="botao-sair">🚪 Sair</button>
+    </aside>
+
+
+    <main class="conteudo">
+
+      <!-- Topo com título e botão de exportar -->
+      <div class="topo">
+        <div>
+          <h2 id="titulo-visao">Painel</h2>
+          <p id="subtitulo-visao">Visão geral das mensagens recebidas.</p>
+        </div>
+        <button class="botao claro" type="button" id="botao-exportar">⬇ Exportar relatório (CSV)</button>
+      </div>
+
+
+      <!-- Cartões do dashboard -->
+      <div class="cartoes entrada" id="cartoes"></div>
+
+
+      <!-- Resumo (só aparece no Painel) -->
+      <section class="duas-colunas entrada" id="secao-resumo">
+
+        <div class="caixa">
+          <h3>Mensagens recentes</h3>
+          <div id="lista-recentes"></div>
+          <div class="rodape-caixa">
+            <button class="botao contorno" type="button" id="botao-ver-todas">Ver todas as mensagens</button>
+          </div>
+        </div>
+
+        <div class="caixa">
+          <h3>Mensagens por categoria</h3>
+          <div id="grafico-categorias"></div>
+        </div>
+
+      </section>
+
+
+      <!-- Tabela de gestão das mensagens (só aparece em Mensagens) -->
+      <section class="caixa entrada" id="secao-tabela" hidden>
+
+        <div class="filtros">
+          <input type="text" id="busca" placeholder="Buscar por título ou nº (ex.: #3)" aria-label="Buscar mensagens">
+
+          <select id="filtro-status" aria-label="Filtrar por status">
+            <option value="">Todos os status</option>
+            <option>Pendente</option>
+            <option>Em Análise</option>
+            <option>Concluído</option>
+          </select>
+
+          <select id="filtro-categoria" aria-label="Filtrar por categoria"></select>
+
+          <select id="ordenacao" aria-label="Ordenar por data">
+            <option value="desc">Mais recentes primeiro</option>
+            <option value="asc">Mais antigas primeiro</option>
+          </select>
+
+          <button class="botao contorno" type="button" id="botao-limpar">Limpar</button>
+        </div>
+
+        <div class="rolagem">
+          <table aria-label="Mensagens recebidas">
+            <thead>
+              <tr>
+                <th scope="col">Nº</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Título</th>
+                <th scope="col">Identificação</th>
+                <th scope="col" id="th-data" aria-sort="descending"><button class="botao-ordenar" type="button" id="botao-ordenar">Data ▼</button></th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="corpo-tabela"></tbody>
+          </table>
+        </div>
+
+        <p class="sem-resultado" id="sem-resultado" hidden>Nenhuma mensagem encontrada.</p>
+
+      </section>
+
+
+      <!-- Configurações: categorias e conta do administrador -->
+      <section class="duas-colunas entrada" id="secao-configuracoes" hidden>
+
+        <div class="caixa">
+          <h3>Categorias</h3>
+          <div id="lista-categorias"></div>
+
+          <div class="adicionar">
+            <input type="text" id="nova-categoria" placeholder="Nova categoria">
+            <button class="botao" type="button" id="botao-categoria">Adicionar</button>
+          </div>
+        </div>
+
+        <div class="caixa">
+          <h3>Minha conta</h3>
+          <p class="conta-email" id="conta-email"></p>
+
+          <form id="formulario-senha" novalidate>
+            <label for="senha-atual">Senha atual</label>
+            <input type="password" id="senha-atual" autocomplete="current-password">
+
+            <label for="senha-nova">Nova senha (mínimo 6 caracteres)</label>
+            <input type="password" id="senha-nova" autocomplete="new-password">
+
+            <label for="senha-confirmar">Confirmar nova senha</label>
+            <input type="password" id="senha-confirmar" autocomplete="new-password">
+
+            <p class="erro-senha" id="erro-senha" role="alert"></p>
+
+            <button class="botao" type="submit">Alterar senha</button>
+          </form>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- Janela de detalhes da mensagem -->
+  <div class="fundo-modal" id="fundo-modal" hidden>
+    <div class="caixa modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo"></div>
+  </div>
+
+  <!-- Aviso rápido no canto da tela -->
+  <div class="aviso" id="aviso" hidden role="status"></div>
+
+</body>
+</html>
